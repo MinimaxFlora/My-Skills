@@ -1,14 +1,14 @@
 # My-Skills 🦞
 
-小龙虾的个人 OpenClaw 技能仓库 —— 存放 OpenWrt 固件构建生态与订阅转换部署相关的可复用技能。
+小龙虾的个人 OpenClaw 技能仓库 —— 存放实战中沉淀的可复用技能：固件构建、订阅转换、服务部署等，持续更新。
 
 ## 技能列表
 
 | Skill | 用途 |
 |---|---|
+| [subhub-deploy](skills/subhub-deploy/SKILL.md) | Kejizero订阅转换（SubHub）单镜像部署：docker-compose/docker 双模式、subconverter 源码编译、Caddy 反代、短链服务、GitHub Actions 镜像构建 |
 | [openwrt-imagebuilder-action](skills/openwrt-imagebuilder-action/SKILL.md) | gh-action-imagebuilder 固件构建 action：机制、inputs、OpenClash 内核内置、tag/release 维护 |
 | [extras-paclages-repo](skills/extras-paclages-repo/SKILL.md) | Extras_Paclages 插件库：三分支结构、签名索引、gen-index.sh、加包流程 |
-| [subhub-deploy](skills/subhub-deploy/SKILL.md) | Kejizero订阅转换（SubHub）单镜像部署：docker-compose/docker 双模式、subconverter 源码编译、Caddy 反代、短链服务、GitHub Actions 镜像构建 |
 
 ## 使用方式
 
@@ -31,7 +31,7 @@ skills/<skill-name>/
 
 ## 相关仓库
 
+- [Subhub](https://github.com/MinimaxFlora/Subhub) — Kejizero订阅转换全家桶（单镜像 + Caddy + subconverter + 短链）
 - [gh-action-imagebuilder](https://github.com/MinimaxFlora/gh-action-imagebuilder) — 固件构建 action
 - [Extras_Paclages](https://github.com/MinimaxFlora/Extras_Paclages) — 插件库
 - [Firmware-Build](https://github.com/MinimaxFlora/Firmware-Build) — 一键构建 workflow
-- [Subhub](https://github.com/MinimaxFlora/Subhub) — Kejizero订阅转换全家桶（单镜像 + Caddy + subconverter + 短链）
