@@ -1,6 +1,6 @@
 ---
 name: openwrt-imagebuilder-action
-description: "MinimaxFlora/gh-action-imagebuilder 固件构建 action：机制、输入参数、OpenClash 内核内置与 tag/release 维护流程"
+description: "MinimaxFlora/gh-action-imagebuilder 固件构建 action：机制、输入参数、签名公钥预置、OpenClash 内核内置与 tag/release 维护流程"
 ---
 
 # OpenWrt ImageBuilder Action（gh-action-imagebuilder）
@@ -16,7 +16,8 @@ Firmware-Build 仓库通过 `uses: MinimaxFlora/gh-action-imagebuilder@v7.3` 调
   - 24.x → SRC_BRANCH=`ipk` → EXPECTED_EXT=`.ipk`（Extras_Paclages 的 ipk 分支）
   - 25.x → SRC_BRANCH=`apk` → EXPECTED_EXT=`.apk`（apk 分支）
 - 架构文件夹（PKG_FOLDER）内容直接 `mv` 进 packages/，有 `.run` 自解压包才用 `--noexec` 解压
-- 25.x 需手动生成 `packages.adb` EC 签名索引（官方 mkndx 在 25.12 ImageBuilder 静默失败，issue #23154）
+- 25.x 需手动生成 `packages.adb` 索引（官方 mkndx 在 25.12 ImageBuilder 静默失败，issue #23154）
+  - 生成未签名索引并关闭 CONFIG_SIGNATURE_CHECK（或配合预置公钥启用签名校验）
 
 ### inputs（action.yml）
 | 参数 | 默认 | 说明 |
@@ -31,6 +32,13 @@ Firmware-Build 仓库通过 `uses: MinimaxFlora/gh-action-imagebuilder@v7.3` 调
 | root_password | (空) | root 密码（首次开机 uci-defaults 设置） |
 
 输出: `firmware_dir` → `<workspace>/.imagebuilder/bin/targets`
+
+### 签名公钥预置（Extras_Paclages 信任链）
+固件构建时把 Extras_Paclages 的公钥预置进固件，烧录后开箱即可信任插件源：
+- **entrypoint.sh 4b 节**：从 `${ACTION_PATH}/key/` 复制公钥到 `files/etc/opkg/keys/key-build.pub` 和 `files/etc/apk/keys/key-build.pem`
+- **files/ 静态公钥**（仓库内）：`files/etc/opkg/keys/key-build.pub`、`files/etc/apk/keys/key-build.pem`（与 key/ 一致）
+- 当前指纹：`e1a9369072ae3a0d`（usign Ed25519 + EC P-256，2026-08-10 轮换）
+- **轮换密钥时三处必须同步**：`key/`、`files/`、Extras_Paclages master/key/ + secrets（KEY_BUILD / KEY_BUILD_EC）
 
 ### 静态文件（照 banner 模式）
 - `files/etc/banner` — SSRIP 彩色横幅
@@ -69,3 +77,4 @@ PACKAGES 含 `luci-app-openclash` 时：
 ## 版本历史
 - v7.0/7.1/7.2: 免 Docker / 版本→格式检测 / 插件 mv + .run 解压 / apk 索引
 - v7.3 (ef59789): luci-compat + OpenClash 内核内置 + 风格统一
+- 2026-08-10: 新增签名公钥预置（key/ + files/ + entrypoint 4b 节），密钥轮换至 e1a9369072ae3a0d
