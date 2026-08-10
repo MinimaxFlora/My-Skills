@@ -28,6 +28,8 @@ Firmware-Build 仓库通过 `uses: MinimaxFlora/gh-action-imagebuilder@v7.3` 调
 | rootfs_partsize | 2048 | rootfs 分区 MB |
 | lan_ip | 192.168.1.1 | 默认管理 IP（uci-defaults 写入） |
 | packages | (空) | 额外软件包，空格分隔，如 'luci-app-openclash luci-app-passwall' |
+| web_server | uhttpd | 'uhttpd'(默认) 装 luci；'nginx' 装 luci-nginx 并应用 nginx 配置 |
+| theme | argon | LuCI 主题预设：argon(默认) / kucat / aurora / design / shadcn，无效值回退 argon |
 | pppoe_account / pppoe_password | (空) | 都填则 WAN 配 PPPoE，否则 DHCP |
 | root_password | (空) | root 密码（首次开机 uci-defaults 设置） |
 
@@ -46,8 +48,16 @@ Firmware-Build 仓库通过 `uses: MinimaxFlora/gh-action-imagebuilder@v7.3` 调
 - 源配置只写源列表**不执行 update**（首次开机网络未就绪）
 - 密钥按版本 cp：25→`files/etc/apk/keys/key-build.pem`，24→`files/etc/opkg/keys/key-build.pub`
 
-### DEFAULT_PACKAGES
-`-dnsmasq -apk-mbedtls -libustream-mbedtls dnsmasq-full apk-openssl libustream-openssl luci luci-compat ip-full kmod-tun kmod-inet-diag kmod-nft-tproxy kmod-nft-socket luci-i18n-base-zh-cn luci-i18n-firewall-zh-cn luci-i18n-package-manager-zh-cn luci-i18n-ttyd-zh-cn`
+### DEFAULT_PACKAGES（不含 luci，由 WEB_SERVER 决定）
+`-dnsmasq -apk-mbedtls -libustream-mbedtls dnsmasq-full apk-openssl libustream-openssl luci-compat ip-full kmod-tun kmod-inet-diag kmod-nft-tproxy kmod-nft-socket luci-i18n-base-zh-cn luci-i18n-firewall-zh-cn luci-i18n-package-manager-zh-cn luci-i18n-ttyd-zh-cn`
+
+- Web 服务器：uhttpd(默认) → `luci`；nginx → `luci-nginx`
+- **主题预设**（case 匹配，仅 5 个，无效值回退 argon）：
+  - `argon` → `luci-theme-argon luci-i18n-argon-config-zh-cn`
+  - `kucat` → `luci-theme-kucat luci-i18n-kucat-config-zh-cn`
+  - `aurora` → `luci-theme-aurora luci-i18n-aurora-config-zh-cn`
+  - `design` → `luci-theme-design`
+  - `shadcn` → `luci-theme-shadcn`
 
 ## OpenClash 内核自动内置（6.5 节）
 PACKAGES 含 `luci-app-openclash` 时：
@@ -77,4 +87,5 @@ PACKAGES 含 `luci-app-openclash` 时：
 ## 版本历史
 - v7.0/7.1/7.2: 免 Docker / 版本→格式检测 / 插件 mv + .run 解压 / apk 索引
 - v7.3 (ef59789): luci-compat + OpenClash 内核内置 + 风格统一
+- 后续: web_server(uhttpd/nginx) + theme 预设（argon/kucat/aurora/design/shadcn）
 - 2026-08-10: 新增签名公钥预置（key/ + files/ + entrypoint 4b 节），密钥轮换至 e1a9369072ae3a0d
