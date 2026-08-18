@@ -1,6 +1,6 @@
 # My-Skills 🦞
 
-小龙虾的个人 OpenClaw 技能仓库 —— 存放实战中沉淀的可复用技能：固件构建、订阅转换、服务部署等，持续更新。
+小龙虾的个人 Hermes Agent 技能仓库 —— 存放实战中沉淀的可复用技能：固件构建、订阅转换、服务部署等，持续更新。
 
 ## 技能列表
 
@@ -12,14 +12,28 @@
 
 ## 使用方式
 
-每个技能是标准 OpenClaw skill 结构：
+每个技能是标准 skill 结构：
 
 ```text
 skills/<skill-name>/
   SKILL.md    # YAML frontmatter（name + description）+ 正文
 ```
 
-本地使用：clone 仓库后，把 `skills/` 下的目录软链或复制到 `~/.openclaw/skills/`（或 OpenClaw 配置的 skills 目录）即可被自动加载。
+### 在 Hermes 中使用
+
+clone 仓库后，把 `skills/` 下的目录复制到 Hermes 的 skills 目录即可被自动加载：
+
+```bash
+git clone https://github.com/MinimaxFlora/My-Skills.git
+mkdir -p ~/.hermes/skills
+cp -r My-Skills/skills/* ~/.hermes/skills/
+```
+
+> 提示：Hermes 对 `description` 有 60 字符的系统提示预算限制（超出会被截断）。若本地加载报错，请将 description 压缩到 60 字符以内，详细说明移入正文。仓库内保留完整版描述。
+
+### 在其他平台使用
+
+同样适用于 Claude/OpenClaw 等支持标准 skill 结构的工具：将技能目录复制或软链到对应平台的 skills 目录即可。
 
 ## 维护
 
