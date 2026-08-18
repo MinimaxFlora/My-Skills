@@ -5,6 +5,10 @@ description: "Extras_Paclages 插件库：三分支结构、签名索引体系�
 
 # Extras_Paclages 插件库维护
 
+## When to Use
+- 向 Extras_Paclages 新增/更新插件包（手动加包或触发 sync-packages 工作流）时
+- 重新生成签名索引、排查签名验证失败、轮换签名密钥时
+
 仓库: https://github.com/MinimaxFlora/Extras_Paclages
 作用: OpenWrt 第三方插件库（带签名索引的插件源），
 由 gh-action-imagebuilder 构建固件时按版本自动拉取（24.x→ipk 分支，25.x→apk 分支），

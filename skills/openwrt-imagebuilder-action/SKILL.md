@@ -5,6 +5,10 @@ description: "MinimaxFlora/gh-action-imagebuilder 固件构建 action：机制�
 
 # OpenWrt ImageBuilder Action（gh-action-imagebuilder）
 
+## When to Use
+- 维护/修改 gh-action-imagebuilder 的 entrypoint.sh、action.yml、静态文件，或推 tag/release 时
+- 排查 Firmware-Build workflow 构建问题（包格式、apk 索引、公钥预置、OpenClash 内核下载）时
+
 仓库: https://github.com/MinimaxFlora/gh-action-imagebuilder
 作用: GitHub Composite Action，免 Docker，从 OpenWrt 官方直下 ImageBuilder 构建定制化固件。
 Firmware-Build 仓库通过 `uses: MinimaxFlora/gh-action-imagebuilder@v7.3` 调用它。
